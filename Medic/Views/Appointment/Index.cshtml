@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Medic.Models.Appointment>
+
+@{
+    ViewBag.Title = "Nowa wizyta";
+}
+
+<h2>Umów wizytę</h2>
+<h3>Wybierz odpowiedniego lekarza</h3>
+<div class="specialization-button">
+    <div class="row">
+        @foreach (Medic.Models.Specialization Specialization in Enum.GetValues(typeof(Medic.Models.Specialization)))
+        {
+           <a href='@Url.Action("Index", "Appointment", new { id = Specialization })' class="btn btn-success">@Specialization</a>
+        }
+</div>
+
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Doctor.Specialization)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoctorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Place)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Where( a => a.PatientID == 1))
+    {
+        <tr>
+            <td>
+                
+                @Html.DisplayFor(modelItem => item.Doctor.Specialization)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doctor.Name)
+                @Html.DisplayFor(modelItem => item.Doctor.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Place)
+            </td>
+            <td>
+                <a href='@Url.Action("Summary", "Appointment", new { patientid = 2, appointmentid = item.AppointmentID })' class="btn btn-danger">Zapisz się</a>
+
+                @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentID })
+            </td>
+        </tr>
+    }
+
+</table>
