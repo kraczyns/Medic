@@ -27,19 +27,8 @@ namespace Medic.Controllers
             return View(appointments.ToList());
         }
 
-        // GET: Appointment/Details/5
-        public ActionResult Details(int id, int PatientId)       {
-
-            Appointment appointment = db.Appointments.Find(id);
-            if (appointment == null)
-            {
-                return HttpNotFound();
-            }
-            return View(appointment);
-        }
-
         // GET: Appointment/Create
-        public ActionResult Create()
+        public ActionResult Create(int id)
         {
             ViewBag.DoctorID = db.Doctors.Select(p => new SelectListItem
             {
@@ -51,7 +40,9 @@ namespace Medic.Controllers
                 Text = p.Name + " " + p.Surname,
                 Value = p.PatientID.ToString()
             });
-
+            Doctor doctor = db.Doctors.Find(id);
+            ViewBag.doctor = doctor.Name + " " + doctor.Surname;
+            ViewBag.id = id;
             return View();
         }
 
@@ -77,7 +68,7 @@ namespace Medic.Controllers
             Appointment appointment = db.Appointments.Find(appointmentid);
             appointment.PatientID = patientid;
             db.SaveChanges();
-
+            ViewBag.PatientID = patientid;
             return View(appointment);
         }
 

@@ -45,7 +45,7 @@
     </dl>
 
     <p>
-        @Html.ActionLink("Twoje wizyty", "Index", "Patient", new { id = 2 }, null) |
+        @Html.ActionLink("Twoje wizyty", "Index", "Patient", new { id = ViewBag.PatientID }, null) |
         @Html.ActionLink("Powrót", "Index")
     </p>
 </div>

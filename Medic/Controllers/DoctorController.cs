@@ -16,9 +16,11 @@ namespace Medic.Controllers
         private WebMedicContext db = new WebMedicContext();
 
         // GET: Doctor
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View(db.Doctors.ToList());
+            Doctor doctor = db.Doctors.Find(id);
+            ViewBag.DoctorID = id;
+            return View(doctor);
         }
 
         // GET: Doctor/Details/5

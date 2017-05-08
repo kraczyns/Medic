@@ -50,10 +50,7 @@
                 @Html.DisplayFor(modelItem => item.Place)
             </td>
             <td>
-                <a href='@Url.Action("Summary", "Appointment", new { patientid = 2, appointmentid = item.AppointmentID })' class="btn btn-danger">Zapisz się</a>
-
-                @Html.ActionLink("Edit", "Edit", new { id = item.AppointmentID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.AppointmentID })
+                <a href='@Url.Action("Summary", "Appointment", new { patientid = 2, appointmentid = item.AppointmentID })' class="btn btn-danger">Zapisz się</a>        
             </td>
         </tr>
     }
