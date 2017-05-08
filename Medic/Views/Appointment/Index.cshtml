@@ -10,10 +10,12 @@
     <div class="row">
         @foreach (Medic.Models.Specialization Specialization in Enum.GetValues(typeof(Medic.Models.Specialization)))
         {
-           <a href='@Url.Action("Index", "Appointment", new { id = Specialization })' class="btn btn-success">@Specialization</a>
+           <a href='@Url.Action("Index", "Appointment", new { pID = ViewBag.PatientID, id = Specialization })' class="btn btn-success">@Specialization</a>
         }
 </div>
 
+</div>
+<div class="bfh-datepicker">
 </div>
 <table class="table">
     <tr>
@@ -32,7 +34,7 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model.Where( a => a.PatientID == 1))
+    @foreach (var item in Model)
     {
         <tr>
             <td>
@@ -50,7 +52,7 @@
                 @Html.DisplayFor(modelItem => item.Place)
             </td>
             <td>
-                <a href='@Url.Action("Summary", "Appointment", new { patientid = 2, appointmentid = item.AppointmentID })' class="btn btn-danger">Zapisz się</a>        
+                <a href='@Url.Action("Summary", "Appointment", new { patientid = ViewBag.PatientID, appointmentid = item.AppointmentID })' class="btn btn-danger">Zapisz mnie</a>        
             </td>
         </tr>
     }

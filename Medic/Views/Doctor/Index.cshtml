@@ -61,9 +61,69 @@
                 <th>
                     Miejsce
                 </th>
+                <th>
+
+                </th>
             </tr>
-@foreach (var item in Model.Appointments)
+@foreach (var item in Model.Appointments.Where(a => a.PatientID != 1 ).Where(a => a.Date >= DateTime.UtcNow)) 
 {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patient.Name)
+                    @Html.DisplayFor(modelItem => item.Patient.Surname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+                <td>
+                    <a href='@Url.Action("Summary", "Doctor", new { appointmentid = item.AppointmentID })' class="btn btn-danger">Odwołaj</a>
+                </td>
+                    
+            </tr>
+        }
+        </table>
+    <h3> Wolne terminy </h3>
+    <table class="table">
+
+        <tr>
+            <th>
+                Termin
+            </th>
+            <th>
+                Miejsce
+            </th>
+        </tr>
+        @foreach (var item in Model.Appointments.Where(a => a.PatientID == 1))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+            </tr>
+        }
+    </table>
+        <h3> Historia </h3>
+    <table class="table">
+
+        <tr>
+            <th>
+                Pacjent
+            </th>
+            <th>
+                Termin
+            </th>
+            <th>
+                Miejsce
+            </th>
+        </tr>
+        @foreach (var item in Model.Appointments.Where(a => a.PatientID != 1).Where(a => a.Date < DateTime.UtcNow))
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Patient.Name)
@@ -77,8 +137,7 @@
                 </td>
             </tr>
         }
-        </table>
-        <h3> Historia </h3>
+    </table>
     <div style="text-align: center;">
         <a href='@Url.Action("Create", "Appointment", new { id = ViewBag.DoctorID })' class="btn btn-primary"> Dodaj wolny termin </a>
     </div>

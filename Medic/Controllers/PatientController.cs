@@ -18,14 +18,9 @@ namespace Medic.Controllers
         // GET: Patient
         public ActionResult Index(int? id)
         {
-            var patients = db.Patients;
-            if (id != null)
-            {
-                Patient patient = db.Patients.Find(id);
+            ViewBag.PatientID = id;
+            Patient patient = db.Patients.Find(id);
                 return View(patient);
-            }
-            
-            return View(patients.ToList());
         }
 
         // GET: Patient/Details/5
@@ -41,6 +36,15 @@ namespace Medic.Controllers
                 return HttpNotFound();
             }
             return View(patient);
+        }
+
+        public ActionResult Summary(int patientid, int appointmentid)
+        {
+            Appointment appointment = db.Appointments.Find(appointmentid);
+            appointment.PatientID = 1;
+            db.SaveChanges();
+            ViewBag.PatientID = patientid;
+            return View(appointment);
         }
 
         // GET: Patient/Create
@@ -78,6 +82,7 @@ namespace Medic.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.PatientID = id;
             return View(patient);
         }
 
@@ -92,7 +97,7 @@ namespace Medic.Controllers
             {
                 db.Entry(patient).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = patient.PatientID });
             }
             return View(patient);
         }

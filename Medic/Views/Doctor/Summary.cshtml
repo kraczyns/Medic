@@ -1,0 +1,10 @@
+﻿@model Medic.Models.Appointment
+@{
+    ViewBag.Title = "Wizyta odwołana";
+}
+
+<h2>Wizyta została odwołana </h2>
+
+<p>
+    @Html.ActionLink("Twoje wizyty", "Index", "Doctor", new { id = ViewBag.DoctorID }, null)
+</p>

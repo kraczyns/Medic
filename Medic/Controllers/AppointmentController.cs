@@ -16,14 +16,22 @@ namespace Medic.Controllers
         private WebMedicContext db = new WebMedicContext();
 
         // GET: Appointment
-        public ActionResult Index(Specialization? id)
+        public ActionResult Index(int pID, Specialization? id, DateTime? fromDate, DateTime? toDate)
         {
             var appointments = db.Appointments.Include(a => a.Doctor).Include(a => a.Patient);
+            appointments = appointments.Where(a => a.PatientID == 1);
             if (id != null)
             {
                 appointments = appointments.Where(s => s.Doctor.Specialization == id);
             }
-                
+            if (fromDate != null && toDate != null)
+            {
+                appointments = appointments.Where(s => s.Date >= fromDate).Where(s => s.Date <= toDate);
+            }
+            ViewBag.PatientID = pID;
+            ViewBag.FromDate = fromDate;
+            ViewBag.ToDate = toDate;
+
             return View(appointments.ToList());
         }
 
@@ -55,7 +63,7 @@ namespace Medic.Controllers
             {
                 db.Appointments.Add(appointment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Doctor", new { id = appointment.DoctorID });
             }
 
             ViewBag.DoctorID = new SelectList(db.Doctors, "DoctorID", "Name", appointment.DoctorID);

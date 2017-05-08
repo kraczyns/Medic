@@ -38,6 +38,15 @@ namespace Medic.Controllers
             return View(doctor);
         }
 
+        public ActionResult Summary(int appointmentid)
+        {
+            Appointment appointment = db.Appointments.Find(appointmentid);
+            appointment.PatientID = 1;
+            db.SaveChanges();
+            ViewBag.DoctorID = appointment.DoctorID;
+            return View(appointment);
+        }
+
         // GET: Doctor/Create
         public ActionResult Create()
         {
@@ -73,6 +82,7 @@ namespace Medic.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.DoctorID = id;
             return View(doctor);
         }
 
@@ -87,7 +97,7 @@ namespace Medic.Controllers
             {
                 db.Entry(doctor).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = doctor.DoctorID });
             }
             return View(doctor);
         }
